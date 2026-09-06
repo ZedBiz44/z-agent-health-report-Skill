@@ -110,6 +110,8 @@ When status is `Healthy`, say: `All required checks passed within this report's 
 
 Keep the report short and use Mountain Time.
 
+Return the complete report in the current reply. If the user says not to deliver it to a channel, do not use a channel-delivery tool, but still return the full report to the current caller. Never replace the report with only a completion note.
+
 ```markdown
 # Agent Health Report
 
@@ -148,5 +150,6 @@ Before sending the report, confirm that:
 - Approved notices are exact matches and still visible.
 - The overall status follows the rules above.
 - The report does not claim that unrelated skills, hosts, or external workflows were tested.
+- The current reply contains the complete report, not only a completion note.
 - The final line says `No changes were made.`
 
