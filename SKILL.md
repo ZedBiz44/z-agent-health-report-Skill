@@ -45,7 +45,7 @@ Run each command once and keep the results separate:
 ```text
 openclaw doctor --json
 openclaw security audit --json
-openclaw gateway status --require-rpc --json --timeout 10000
+openclaw health --json --timeout 10000
 openclaw channels status --probe --json --timeout 10000
 ```
 
@@ -56,7 +56,7 @@ Run each command once and keep the results separate:
 ```text
 openclaw doctor --deep --json
 openclaw security audit --deep --json
-openclaw gateway status --require-rpc --json --timeout 10000
+openclaw health --json --timeout 10000
 openclaw gateway status --deep --json --timeout 10000
 openclaw channels status --probe --json --timeout 10000
 openclaw plugins list --json
@@ -79,8 +79,8 @@ Apply these rules:
 
 - For `doctor`, read the JSON `ok` value and findings. A successful exit code does not make an `ok: false` result healthy.
 - For `security audit`, report the severity and a short safe summary of each finding. Never include sensitive values.
-- For `gateway status --require-rpc`, treat failed RPC proof as `Failed`.
-- For `gateway status --deep`, report service-discovery findings separately. It is not a substitute for RPC proof.
+- For `health`, require valid JSON with `ok: true`. Treat a connection failure or `ok: false` as `Failed`. Summarize the gateway, event loop, plugin-error count, and channel readiness without exposing session paths or configuration values.
+- For `gateway status --deep`, report service-discovery findings separately. It is not a substitute for the live gateway health check.
 - For channel status, treat a failed probe for any configured, required channel as `Failed`. List optional or intentionally disabled channels separately if the output identifies them.
 - For `plugins list`, report loading errors, missing dependencies, disabled status, and diagnostics. Do not claim an external integration was functionally tested.
 - For `config validate`, invalid configuration is `Failed`.
@@ -94,13 +94,13 @@ An approved notice is a reviewed, exact exception that is safe to show without l
 - Match the exact check and diagnostic code.
 - Show every match under `Approved notices`.
 - If the wording, code, severity, or affected component changes, treat it as a new finding.
-- Never approve a critical security finding, failed gateway RPC proof, failed required-channel probe, or invalid configuration.
+- Never approve a critical security finding, failed live gateway health check, failed required-channel probe, or invalid configuration.
 
 ## Overall Status
 
 Use exactly one status:
 
-- `Needs Attention`: any critical security finding, failed gateway RPC proof, failed required-channel probe, invalid configuration, or other required check is `Failed`.
+- `Needs Attention`: any critical security finding, failed live gateway health check, failed required-channel probe, invalid configuration, or other required check is `Failed`.
 - `Warning`: no required check failed, but at least one non-approved finding or `Not checked` result remains.
 - `Healthy`: every required check passed, with only exact approved notices allowed.
 
@@ -149,5 +149,4 @@ Before sending the report, confirm that:
 - The overall status follows the rules above.
 - The report does not claim that unrelated skills, hosts, or external workflows were tested.
 - The final line says `No changes were made.`
-
 
