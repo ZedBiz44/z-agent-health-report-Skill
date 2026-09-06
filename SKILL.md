@@ -77,7 +77,7 @@ Use one result for every command:
 
 Apply these rules:
 
-- For `doctor`, read the JSON `ok` value and findings. A successful exit code does not make an `ok: false` result healthy.
+- For `doctor`, read the JSON `ok` value and findings. Valid output with `ok: false` and only non-critical warnings is `Finding`, not `Failed`. Use `Failed` when the command cannot run, the JSON is invalid, or an error-level or critical diagnostic makes the required check unusable. A successful exit code does not make an `ok: false` result healthy.
 - For `security audit`, report the severity and a short safe summary of each finding. Never include sensitive values.
 - For `health`, require valid JSON with `ok: true`. Treat a connection failure or `ok: false` as `Failed`. Summarize the gateway, event loop, plugin-error count, and channel readiness without exposing session paths or configuration values.
 - For `gateway status --deep`, report service-discovery findings separately. It is not a substitute for the live gateway health check.
