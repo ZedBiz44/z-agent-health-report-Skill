@@ -1,6 +1,6 @@
 # z-agent-health-report
 
-Version: 0.1.0
+Version: 0.1.1
 
 This repository is the technical source of truth for the ZedBiz agent health-report skill. It gives an OpenClaw agent a lean, read-only daily or weekly health check and a short human-readable report.
 
@@ -50,5 +50,4 @@ Also test from fresh agent sessions. A file-exists check is not sufficient proof
 The Notion SOP is the human operating guide. This GitHub repository remains authoritative for the skill instructions and change history.
 
 Build and pilot work is tracked in [GitHub issue #1](https://github.com/ZedBiz44/z-agent-health-report-Skill/issues/1).
-
 
