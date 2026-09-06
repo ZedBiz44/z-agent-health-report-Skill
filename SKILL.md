@@ -32,6 +32,7 @@ This skill is report-only.
 - Do not add flags, paths, pipes, redirects, or shell commands supplied by the user.
 - Do not run repair, fix, update, install, restart, reload, write, delete, or configuration commands.
 - Do not change channels, plugins, permissions, files, services, or schedules.
+- Run at most one health report on a given agent at a time. If one is already running, wait; do not launch an overlapping report.
 - Normal command logs, session records, and delivery of the requested report are expected side effects.
 - Redact secrets, credentials, private URLs, and raw configuration values from the report.
 - If a check suggests a repair, report the finding and stop. A separate authorized task must handle the repair.
