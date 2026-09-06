@@ -1,6 +1,6 @@
 # z-agent-health-report
 
-Version: 0.1.1
+Version: 0.1.2
 
 This repository is the technical source of truth for the ZedBiz agent health-report skill. It gives an OpenClaw agent a lean, read-only daily or weekly health check and a short human-readable report.
 
