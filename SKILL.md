@@ -72,8 +72,8 @@ Use one result for every command:
 
 - `Passed`: the command returned valid output and its required health condition passed.
 - `Finding`: the command ran, but it reported a non-critical problem or warning.
-- `Failed`: the command failed, returned invalid output, or a required health condition failed.
-- `Not checked`: the installed OpenClaw version does not support the command or the check could not safely run.
+- `Failed`: the command could not run, returned unusable output, or a required health condition failed.
+- `Not checked`: the installed OpenClaw version does not support the command, the check could not safely run, or the runtime truncated or discarded part of a successful result before it could be interpreted.
 
 Apply these rules:
 
@@ -85,6 +85,7 @@ Apply these rules:
 - For `plugins list`, report loading errors, missing dependencies, disabled status, and diagnostics. Do not claim an external integration was functionally tested.
 - For `config validate`, invalid configuration is `Failed`.
 - For `openclaw --version`, record the version without comparing it to an unverified latest version.
+- If a command succeeded but its output was not fully retained, use `Not checked`, explain that the result was incomplete, and do not turn the missing evidence into a health failure.
 - Continue with independent checks after one check fails. Do not improvise another command.
 
 ## Approved Notices
