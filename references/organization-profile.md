@@ -9,9 +9,10 @@
 
 ## Runtime
 
-- Agent platform: OpenClaw
+- Agent platforms: OpenClaw and Hermes
 - Skill format: shared `SKILL.md` with `name` and `description` frontmatter
-- Pilot agents: Terry and Harry
+- OpenClaw pilot agents: Terry and Harry
+- Hermes pilot agent: Ruby
 - Report modes: daily and weekly
 
 ## Operating Boundary
@@ -39,5 +40,6 @@
 - Preserve any previous deployed copy before replacement.
 - If the pilot fails, remove the new skill folder or restore the preserved copy.
 - Verify the agent returns to its prior runtime state.
+
 
 
