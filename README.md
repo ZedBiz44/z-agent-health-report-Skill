@@ -1,6 +1,6 @@
 # z-agent-health-report
 
-Version: 0.2.0
+Version: 0.2.1
 
 This repository is the technical source of truth for the ZedBiz agent health-report skill. It gives an OpenClaw or Hermes agent a lean, read-only daily or weekly health check and a short human-readable report.
 
@@ -37,6 +37,8 @@ The agent should return the report defined in [SKILL.md](SKILL.md) and make no r
 
 The agent must identify whether its runtime is OpenClaw or Hermes and run only that platform's command set.
 
+The optional `scripts/collect-discord-reports.sh` helper gives the designated fleet-summary agent a deterministic roster check. It reads only `#agent-health-report` and does not change agent health.
+
 ## Validation
 
 Validate the repository with the current `z-ai-skill-developer` validator:
@@ -52,5 +54,3 @@ Also test from fresh agent sessions. A file-exists check is not sufficient proof
 The Notion SOP is the human operating guide. This GitHub repository remains authoritative for the skill instructions and change history.
 
 Build and pilot work is tracked in [GitHub issue #1](https://github.com/ZedBiz44/z-agent-health-report-Skill/issues/1).
-
-
