@@ -1,11 +1,11 @@
 ---
 name: z-agent-health-report
-description: Run safe daily or weekly OpenClaw health checks and return a short report without repairing or changing the agent.
+description: Run safe daily or weekly OpenClaw or Hermes health checks and return a short report without repairing or changing the agent.
 ---
 
 # Z Agent Health Report
 
-Run a small set of read-only OpenClaw checks and return a plain-language health report for the current agent.
+Run a small set of read-only OpenClaw or Hermes checks and return a plain-language health report for the current agent.
 
 ## Use This Skill When
 
@@ -18,6 +18,7 @@ Do not use this skill for host, Docker, firewall, backup, billing, or operating-
 ## Required Input
 
 - Report mode: `daily` or `weekly`.
+- Runtime platform: `OpenClaw` or `Hermes`. Use the current agent profile or available executable to identify it. Do not guess or run commands for the wrong platform.
 - The current agent's name or agent ID.
 - A safe gateway or runtime label from the current agent profile. Never expose tokens, passwords, private URLs, or full configuration files.
 - Any approved notice list supplied by the organization's current operating profile. Match notices only by the exact check and diagnostic code. Never invent or broaden an exception.
@@ -39,7 +40,13 @@ This skill is report-only.
 
 End every report with: `No changes were made.`
 
-## Daily Report
+## Choose the Platform Checks
+
+- Use the OpenClaw commands only when the current runtime is OpenClaw.
+- Use the Hermes commands only when the current runtime is Hermes.
+- If neither platform can be confirmed, mark every platform check `Not checked`, explain why, and stop without improvising commands.
+
+## OpenClaw Daily Report
 
 Run each command once and keep the results separate:
 
@@ -50,7 +57,7 @@ openclaw health --json --timeout 10000
 openclaw channels status --probe --json --timeout 10000
 ```
 
-## Weekly Report
+## OpenClaw Weekly Report
 
 Run each command once and keep the results separate:
 
@@ -66,6 +73,34 @@ openclaw --version
 ```
 
 The weekly plugin check verifies plugin loading and reported dependency problems. It does not prove that every plugin or external service works.
+
+## Hermes Daily Report
+
+Run each command once and keep the results separate:
+
+```text
+hermes status --all
+hermes doctor
+hermes gateway status --deep
+```
+
+Do not use `hermes doctor --fix` or `hermes doctor --live`. The live option makes real external calls and is outside this lean report.
+
+## Hermes Weekly Report
+
+Run each command once and keep the results separate:
+
+```text
+hermes status --all --deep
+hermes doctor
+hermes gateway status --deep
+hermes security audit
+hermes skills list
+hermes cron status
+hermes --version
+```
+
+The Hermes security audit makes a read-only request to the public OSV vulnerability database. The skill and cron checks report loading or scheduler problems; they do not change either system.
 
 ## Interpret Each Check
 
@@ -86,6 +121,13 @@ Apply these rules:
 - For `plugins list`, report loading errors, missing dependencies, disabled status, and diagnostics. Do not claim an external integration was functionally tested.
 - For `config validate`, invalid configuration is `Failed`.
 - For `openclaw --version`, record the version without comparing it to an unverified latest version.
+- For `hermes status`, require the configured primary provider, required Discord connection, and gateway service to be available. Optional unconfigured providers or channels are not findings.
+- For `hermes doctor`, report active security advisories, configuration errors, missing required packages, unhealthy supervision, required-tool failures, and the final issue count. Optional providers and tools are not findings unless the organization profile marks them required.
+- For `hermes gateway status --deep`, treat a stopped or unreachable gateway as `Failed`. A running supervised or intentionally container-managed gateway passes even when it is not installed as a host system service.
+- For `hermes security audit`, report critical, high, moderate, and unknown findings by package and advisory ID. A critical finding is `Failed`; lower severities are `Finding` unless an approved notice matches exactly.
+- For `hermes skills list`, report load failures or disabled required skills. Do not treat intentionally disabled optional skills as findings.
+- For `hermes cron status`, require the scheduler to be running when scheduled reports are expected.
+- For `hermes --version`, record the installed version without comparing it to an unverified latest version.
 - If a command succeeded but its output was not fully retained, use `Not checked`, explain that the result was incomplete, and do not turn the missing evidence into a health failure.
 - Continue with independent checks after one check fails. Do not improvise another command.
 
@@ -102,7 +144,7 @@ An approved notice is a reviewed, exact exception that is safe to show without l
 
 Use exactly one status:
 
-- `Needs Attention`: any critical security finding, failed live gateway health check, failed required-channel probe, invalid configuration, or other required check is `Failed`.
+- `Needs Attention`: any critical security finding, failed live gateway or scheduler health check, failed required-channel probe, invalid configuration, or other required check is `Failed`.
 - `Warning`: no required check failed, but at least one non-approved finding or `Not checked` result remains.
 - `Healthy`: every required check passed, with only exact approved notices allowed.
 
@@ -118,7 +160,7 @@ Return the complete report in the current reply. If the user says not to deliver
 # Agent Health Report
 
 **Agent:** [name or ID]
-**Gateway:** [safe label]
+**Runtime:** [OpenClaw gateway or Hermes runtime safe label]
 **Mode:** [Daily or Weekly]
 **Checked:** [YYYY-MM-DD HH:MM Mountain Time]
 **Overall:** [Healthy, Warning, or Needs Attention]
@@ -146,7 +188,7 @@ Do not paste raw JSON into the report unless the user explicitly asks for diagno
 
 Before sending the report, confirm that:
 
-- The report names the current agent and safe gateway label.
+- The report names the current agent, platform, and safe runtime label.
 - Every required command has one check result.
 - Failed checks are not hidden as warnings.
 - Approved notices are exact matches and still visible.
@@ -154,4 +196,5 @@ Before sending the report, confirm that:
 - The report does not claim that unrelated skills, hosts, or external workflows were tested.
 - The current reply contains the complete report, not only a completion note.
 - The final line says `No changes were made.`
+
 
