@@ -1,12 +1,12 @@
 # z-agent-health-report
 
-Version: 0.1.5
+Version: 0.2.0
 
-This repository is the technical source of truth for the ZedBiz agent health-report skill. It gives an OpenClaw agent a lean, read-only daily or weekly health check and a short human-readable report.
+This repository is the technical source of truth for the ZedBiz agent health-report skill. It gives an OpenClaw or Hermes agent a lean, read-only daily or weekly health check and a short human-readable report.
 
 ## What It Does
 
-- Runs an approved set of OpenClaw health commands.
+- Runs the approved OpenClaw or Hermes health commands for the current platform.
 - Separates passed checks, findings, failures, and checks that could not run.
 - Uses clear `Healthy`, `Warning`, or `Needs Attention` status.
 - Reports exact approved notices without hiding them.
@@ -35,6 +35,8 @@ Ask the agent for one mode:
 
 The agent should return the report defined in [SKILL.md](SKILL.md) and make no repairs.
 
+The agent must identify whether its runtime is OpenClaw or Hermes and run only that platform's command set.
+
 ## Validation
 
 Validate the repository with the current `z-ai-skill-developer` validator:
@@ -50,4 +52,5 @@ Also test from fresh agent sessions. A file-exists check is not sufficient proof
 The Notion SOP is the human operating guide. This GitHub repository remains authoritative for the skill instructions and change history.
 
 Build and pilot work is tracked in [GitHub issue #1](https://github.com/ZedBiz44/z-agent-health-report-Skill/issues/1).
+
 
