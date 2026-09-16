@@ -33,7 +33,7 @@ for agent in "${agents[@]}"; do
     --argjson start "$start_ms" '
       [.payload.results.messages[][]?
        | select((.timestampMs // 0) >= $start)
-       | select(.content | startswith("# Agent Health Report"))
+       | select(.content | test("(^|\\n)# Agent Health Report(\\r?\\n|$)"))
        | select(.content | contains("**Agent:** " + $agent))
        | select(.content | contains("**Mode:** " + $mode))]
       | sort_by(.timestampMs)

@@ -1,6 +1,6 @@
 # z-agent-health-report
 
-Version: 0.2.1
+Version: 0.2.2
 
 This repository is the technical source of truth for the ZedBiz agent health-report skill. It gives an OpenClaw or Hermes agent a lean, read-only daily or weekly health check and a short human-readable report.
 
@@ -37,7 +37,7 @@ The agent should return the report defined in [SKILL.md](SKILL.md) and make no r
 
 The agent must identify whether its runtime is OpenClaw or Hermes and run only that platform's command set.
 
-The optional `scripts/collect-discord-reports.sh` helper gives the designated fleet-summary agent a deterministic roster check. It reads only `#agent-health-report` and does not change agent health.
+The optional `scripts/collect-discord-reports.sh` helper gives the designated fleet-summary agent a deterministic roster check. It accepts both direct OpenClaw reports and Hermes reports with a platform-added delivery header. It reads only `#agent-health-report` and does not change agent health.
 
 ## Validation
 
