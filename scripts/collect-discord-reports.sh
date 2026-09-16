@@ -45,9 +45,9 @@ for agent in "${agents[@]}"; do
     continue
   fi
 
-  status="$(printf '%s' "$match" | jq -r '.content | split("**Overall:** ")[1] | split("\n")[0]' 2>/dev/null || echo UNKNOWN)"
+  status="$(printf '%s' "$match" | jq -r '.content | split("**Overall:** ")[1] | split("\n")[0] | gsub("^\\s+|\\s+$"; "")' 2>/dev/null || echo UNKNOWN)"
   timestamp="$(printf '%s' "$match" | jq -r '.timestampUtc // .timestamp // ""')"
-  finding="$(printf '%s' "$match" | jq -r '.content | gsub("[\\r\\n]+"; " ") | .[0:1400]')"
+  finding="$(printf '%s' "$match" | jq -r '.content | gsub("[\\r\\n\\t]+"; " ") | .[0:6000]')"
   printf '%s\t%s\t%s\t%s\n' "$agent" "$status" "$timestamp" "$finding" >> "$rows_file"
 done
 
