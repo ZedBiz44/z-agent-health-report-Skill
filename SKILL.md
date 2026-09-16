@@ -146,6 +146,8 @@ Apply these rules:
 
 An approved notice is a reviewed, exact exception that is safe to show without lowering the overall status.
 
+Apply the current agent-specific exceptions in [the ZedBiz approved notice register](references/zedbiz-approved-notices.md). Do not apply an exception to a different agent, diagnostic code, path, model, channel, host binding, or backup count.
+
 - Match the exact check and diagnostic code.
 - Show every match under `Approved notices`.
 - If the wording, code, severity, or affected component changes, treat it as a new finding.
