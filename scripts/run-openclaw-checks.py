@@ -113,11 +113,11 @@ def main():
     commands = [
         ('health', ['openclaw', 'health', '--json', '--timeout', '10000']),
         ('channels', ['openclaw', 'channels', 'status', '--probe', '--json', '--timeout', '10000']),
-        ('doctor', ['openclaw', 'doctor', *deep, '--json']),
-        ('security', ['openclaw', 'security', 'audit', *deep, '--json']),
     ]
     if args.mode == 'weekly':
         commands.extend([
+            ('doctor', ['openclaw', 'doctor', *deep, '--json']),
+            ('security', ['openclaw', 'security', 'audit', *deep, '--json']),
             ('gateway', ['openclaw', 'gateway', 'status', '--deep', '--json', '--timeout', '10000']),
             ('plugins', ['openclaw', 'plugins', 'list', '--json']),
             ('configuration', ['openclaw', 'config', 'validate', '--json']),

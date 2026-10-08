@@ -9,7 +9,7 @@ import sys
 import tempfile
 import unittest
 
-SCRIPTS = Path(__file__).parents[1] / 'scripts'
+SCRIPTS = Path(__file__).resolve().parents[1] / 'scripts'
 spec = importlib.util.spec_from_file_location('runner', SCRIPTS / 'run-openclaw-checks.py')
 runner = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(runner)
