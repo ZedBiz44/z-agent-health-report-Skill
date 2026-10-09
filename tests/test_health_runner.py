@@ -16,6 +16,24 @@ spec.loader.exec_module(runner)
 
 
 class HealthRunnerTests(unittest.TestCase):
+    def test_custom_configuration_is_preserved(self):
+        from unittest.mock import patch
+        import contextlib
+        import io
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d).resolve()
+            custom = root / 'profile-config.json'
+            custom.write_text('{}')
+            (root / 'state').mkdir()
+            (root / 'state/openclaw.sqlite').touch()
+            captured = {}
+            def checks(commands, env, persist):
+                captured.update(env)
+                return []
+            with patch.dict(os.environ, {'OPENCLAW_STATE_DIR': str(root), 'OPENCLAW_CONFIG_PATH': str(custom)}), patch.object(runner, 'HERE', root / 'workspace/skills/z-agent-health-report/scripts'), patch.object(runner, 'run_checks', checks), patch.object(sys, 'argv', ['runner', '--mode', 'daily']), contextlib.redirect_stdout(io.StringIO()):
+                self.assertEqual(runner.main(), 0)
+            self.assertEqual(captured['OPENCLAW_CONFIG_PATH'], str(custom))
+
     def test_waits_for_exit_and_continues_after_failed_check(self):
         with tempfile.TemporaryDirectory() as d:
             marker = Path(d) / 'active'

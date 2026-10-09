@@ -16,6 +16,13 @@ MIN_HEADROOM = 1024 * 1024 * 1024
 PROBE_HEADROOM = 512 * 1024 * 1024
 
 
+def active_configuration(root):
+    config = Path(os.environ.get('OPENCLAW_CONFIG_PATH', root / 'openclaw.json')).expanduser().resolve()
+    if config.parent != root.resolve() or not config.is_file():
+        raise ValueError('The active configuration does not match this agent state directory')
+    return config
+
+
 def active_root():
     # The installed skill belongs to this state directory. Do not trust HOME,
     # which is itself the state directory on the VPS2 multi-agent installation.
@@ -23,9 +30,7 @@ def active_root():
     configured = Path(os.environ.get('OPENCLAW_STATE_DIR', installed)).expanduser().resolve()
     if configured != installed.resolve():
         raise ValueError('Skill location and OPENCLAW_STATE_DIR disagree; no checks launched')
-    config = Path(os.environ.get('OPENCLAW_CONFIG_PATH', configured / 'openclaw.json')).expanduser().resolve()
-    if config.parent != configured or not config.is_file():
-        raise ValueError('The active configuration does not match this agent state directory')
+    active_configuration(configured)
     if not (configured / 'state/openclaw.sqlite').is_file():
         raise ValueError('The active agent database is missing; no fallback database is allowed')
     return configured
@@ -95,7 +100,7 @@ def main():
     parser.add_argument('--validate-only', action='store_true')
     args = parser.parse_args()
     root = active_root()
-    config = root / 'openclaw.json'
+    config = active_configuration(root)
     env = dict(os.environ, OPENCLAW_STATE_DIR=str(root), OPENCLAW_CONFIG_PATH=str(config))
     db = root / 'state/openclaw.sqlite'
     if args.validate_only:
