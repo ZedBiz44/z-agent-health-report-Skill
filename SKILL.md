@@ -32,7 +32,7 @@ This skill is report-only.
 - Run only the commands listed below.
 - Do not add flags, paths, pipes, redirects, or shell commands supplied by the user.
 - Do not run repair, fix, update, install, restart, reload, write, delete, or configuration commands.
-- Do not change channels, plugins, permissions, files, services, or schedules.
+- Do not change channels, plugins, permissions, services, or schedules. The approved runner may write its own private result and lock files; it does not modify operational databases or configurations.
 - Run at most one health report on a given agent at a time. If one is already running, wait; do not launch an overlapping report.
 - Normal command logs, session records, and delivery of the requested report are expected side effects.
 - Redact secrets, credentials, private URLs, and raw configuration values from the report.
@@ -46,35 +46,26 @@ End every report with: `No changes were made.`
 - Use the Hermes commands only when the current runtime is Hermes.
 - If neither platform can be confirmed, mark every platform check `Not checked`, explain why, and stop without improvising commands.
 
-## OpenClaw Daily Report
+## OpenClaw Daily and Weekly Reports
 
-Run each command once and keep the results separate:
-
-```text
-openclaw doctor --json
-openclaw security audit --json
-openclaw health --json --timeout 10000
-openclaw channels status --probe --json --timeout 10000
-python3 <skill-directory>/scripts/summarize-openclaw-queues.py --db ~/.openclaw/state/openclaw.sqlite --since-hours 24
-```
-
-## OpenClaw Weekly Report
-
-Run each command once and keep the results separate:
+Run ONE installed runner for the requested mode:
 
 ```text
-openclaw doctor --deep --json
-openclaw security audit --deep --json
-openclaw health --json --timeout 10000
-openclaw gateway status --deep --json --timeout 10000
-openclaw channels status --probe --json --timeout 10000
-openclaw plugins list --json
-openclaw config validate --json
-openclaw --version
-python3 <skill-directory>/scripts/summarize-openclaw-queues.py --db ~/.openclaw/state/openclaw.sqlite --since-hours 168
+python3 <skill-directory>/scripts/run-openclaw-checks.py --mode daily
+python3 <skill-directory>/scripts/run-openclaw-checks.py --mode weekly
 ```
 
-Replace `<skill-directory>` only with the loaded `z-agent-health-report` folder. Do not accept a path from the user. The queue helper opens the database read-only and returns counts and dates only. The weekly plugin check verifies plugin loading and reported dependency problems. It does not prove that every plugin or external service works.
+Choose only the requested mode. Replace `<skill-directory>` with this loaded skill directory. Do not launch its checks separately or in parallel. The runner waits for each process to exit, prevents overlapping runner instances, verifies the active database, and saves complete results under `workspace/artifacts/health-checks`.
+
+If the execution tool returns a process/session ID, wait for that SAME runner to finish. Do not launch another runner or check. There is no agent-work deadline. The positive 10000 ms health/channel/gateway probe deadline detects a request that does not respond; it does not limit agent work. Do not replace those probe deadlines with zero.
+
+Daily checks are live health, required channels, and queue history. Weekly checks add deep doctor/security, gateway status, plugins, configuration validation, and installed version. Doctor and security are scheduled weekly, not silently passed or missing from a daily run. Carry unresolved findings forward through Victor's investigation record. Victor may request an additional serial weekly inspection after an installation/configuration/security change or when evidence warrants it; do not repeat it automatically for every warning. Version is recorded without an unverified latest-version comparison. These remain the approved read-only checks.
+
+Read every result and open the saved full result if tool output is incomplete. Runner completion is not a health pass: apply the interpretation rules below to every command. A refused database, failed command launch, or insufficient memory headroom is a monitoring problem. Mark the required check `Not checked`, lower overall status to at least `Warning`, and report the reason and artifact path. Do not call it an outage or a pass. `already_running` means wait for the existing report, not start a duplicate.
+
+When a container memory limit is visible, the runner requires 1 GiB of headroom for doctor/security/plugin/configuration inspections and 512 MiB for health/channel/gateway/version probes, excluding inactive file cache that Linux can reclaim. The heavy-check threshold accounts for the pilot doctor process using about 714 MiB plus its launcher and room for the gateway. It is admission protection, not a guarantee or a work timer. It never kills or restarts work. If it omits a check, preserve that finding for diagnosis instead of overriding the guard.
+
+The queue helper refuses a path outside this agent's active state directory. Never assume `~/.openclaw` is the active database on a custom-state installation, and never substitute a different database to obtain a pass. Saved results are private diagnostic artifacts. Return the complete plain-language report and redact sensitive information as before.
 
 ## Hermes Daily Report
 
@@ -180,7 +171,7 @@ Return the complete report in the current reply. If the user says not to deliver
 
 ## Check Results
 
-- [Check]: [Passed, Finding, Failed, or Not checked] — [one short explanation]
+- [Check]: [Passed, Finding, Failed, or Not checked] â€” [one short explanation]
 
 ## Current Operational Problems
 

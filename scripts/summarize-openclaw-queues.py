@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import json
+import os
 import sqlite3
 from pathlib import Path
 
@@ -82,12 +83,22 @@ def main() -> int:
     parser.add_argument("--since-hours", type=int, default=24)
     parser.add_argument("--now-ms", type=int, help=argparse.SUPPRESS)
     args = parser.parse_args()
+    installed_root = Path(__file__).resolve().parents[4]
+    state_root = Path(os.environ.get('OPENCLAW_STATE_DIR', installed_root)).expanduser().resolve()
+    expected_db = state_root / 'state' / 'openclaw.sqlite'
+    if state_root != installed_root.resolve():
+        parser.error('OPENCLAW_STATE_DIR disagrees with the installed agent workspace')
+    if args.db.resolve() != expected_db.resolve():
+        parser.error('--db is not this agent\'s active state database; refusing a stale or different-agent database')
     if not 1 <= args.since_hours <= 24 * 31:
         parser.error("--since-hours must be between 1 and 744")
     if not args.db.is_file():
         parser.error("--db must name an existing SQLite file")
     now_ms = args.now_ms or int(dt.datetime.now(dt.UTC).timestamp() * 1000)
-    print(json.dumps(summarize(args.db, args.since_hours, now_ms), indent=2, sort_keys=True))
+    result = summarize(args.db, args.since_hours, now_ms)
+    result['database'] = str(expected_db.resolve())
+    result['stateDirectory'] = str(state_root)
+    print(json.dumps(result, indent=2, sort_keys=True))
     return 0
 
 
