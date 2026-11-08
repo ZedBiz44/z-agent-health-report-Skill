@@ -1,0 +1,393 @@
+{
+  "date": "2026-11-08",
+  "agent": "Cody",
+  "feature": "Daily journals six minutes after daily or weekly health checks",
+  "authorization": "Jack explicitly approved all four servers, Saturday weekly timing, new Ruby journal, new Roy health and journal jobs, and personal Marsha Work Journal quiet hours.",
+  "timezone": "America/Edmonton",
+  "verified_agents": 17,
+  "verification": "Supported scheduler API create/update and readback, exact six-minute offsets and matching weekdays checked for all 17 agents. Ruby and Roy own Notion fetch succeeded. Natural scheduled execution and RAM improvement not yet verified.",
+  "changes": [
+    {
+      "server": "vps1",
+      "agent": "amanda",
+      "pairs": [
+        {
+          "health": "15 3 * * 0-5",
+          "journal": "21 3 * * 0-5",
+          "journal_id": "57668623-8f46-41c9-8a09-9b7e386109af",
+          "timezone": "America/Edmonton",
+          "offset_minutes": 6
+        },
+        {
+          "health": "0 0 * * 6",
+          "journal": "6 0 * * 6",
+          "journal_id": "ca74509d-1695-45b2-b008-63f61a89a97d",
+          "timezone": "America/Edmonton",
+          "offset_minutes": 6
+        }
+      ],
+      "verified": true
+    },
+    {
+      "server": "vps1",
+      "agent": "edith",
+      "pairs": [
+        {
+          "health": "15 3 * * 0-5",
+          "journal": "21 3 * * 0-5",
+          "journal_id": "95c5ad39-fef9-45e1-8b9a-a7796d58cce4",
+          "timezone": "America/Edmonton",
+          "offset_minutes": 6
+        },
+        {
+          "health": "15 0 * * 6",
+          "journal": "21 0 * * 6",
+          "journal_id": "ebb5ecbe-daca-44a3-87cd-9fcc11755880",
+          "timezone": "America/Edmonton",
+          "offset_minutes": 6
+        }
+      ],
+      "verified": true
+    },
+    {
+      "server": "vps1",
+      "agent": "gohzed",
+      "pairs": [
+        {
+          "health": "45 3 * * 0-5",
+          "journal": "51 3 * * 0-5",
+          "journal_id": "adf8dc3c-3767-4764-906f-50235dabe69c",
+          "timezone": "America/Edmonton",
+          "offset_minutes": 6
+        },
+        {
+          "health": "45 0 * * 6",
+          "journal": "51 0 * * 6",
+          "journal_id": "8ae42541-f0c8-408f-a7eb-ac591f04d38f",
+          "timezone": "America/Edmonton",
+          "offset_minutes": 6
+        }
+      ],
+      "verified": true
+    },
+    {
+      "server": "vps1",
+      "agent": "grogar",
+      "pairs": [
+        {
+          "health": "0 4 * * 0-5",
+          "journal": "6 4 * * 0-5",
+          "journal_id": "62ac9cd4-cdff-4fa0-abf0-a0c0ed790147",
+          "timezone": "America/Edmonton",
+          "offset_minutes": 6
+        },
+        {
+          "health": "0 1 * * 6",
+          "journal": "6 1 * * 6",
+          "journal_id": "83c9897c-d073-44a2-9f0a-83089d0c3e95",
+          "timezone": "America/Edmonton",
+          "offset_minutes": 6
+        }
+      ],
+      "verified": true
+    },
+    {
+      "server": "vps1",
+      "agent": "inga",
+      "pairs": [
+        {
+          "health": "30 4 * * 0-5",
+          "journal": "36 4 * * 0-5",
+          "journal_id": "50916ef5-b712-4104-90dd-e5d114b223ed",
+          "timezone": "America/Edmonton",
+          "offset_minutes": 6
+        },
+        {
+          "health": "30 1 * * 6",
+          "journal": "36 1 * * 6",
+          "journal_id": "0b514d2a-523b-4630-aa9c-c3664b7467c3",
+          "timezone": "America/Edmonton",
+          "offset_minutes": 6
+        }
+      ],
+      "verified": true
+    },
+    {
+      "server": "vps1",
+      "agent": "maggie",
+      "pairs": [
+        {
+          "health": "45 4 * * 0-5",
+          "journal": "51 4 * * 0-5",
+          "journal_id": "31765a70-9656-4a6b-83f5-a6606bab2913",
+          "timezone": "America/Edmonton",
+          "offset_minutes": 6
+        },
+        {
+          "health": "45 1 * * 6",
+          "journal": "51 1 * * 6",
+          "journal_id": "da84827c-35c9-4cb4-b0c8-8b23f19bcc8d",
+          "timezone": "America/Edmonton",
+          "offset_minutes": 6
+        }
+      ],
+      "verified": true
+    },
+    {
+      "server": "vps1",
+      "agent": "marsha",
+      "pairs": [
+        {
+          "health": "0 5 * * 0-5",
+          "journal": "6 5 * * 0-5",
+          "journal_id": "a7348272-fdb9-4d5d-b4b6-697852e33f31",
+          "timezone": "America/Edmonton",
+          "offset_minutes": 6
+        },
+        {
+          "health": "0 2 * * 6",
+          "journal": "6 2 * * 6",
+          "journal_id": "72a87d78-1fd8-4b8d-a1bc-ec55e6f1c699",
+          "timezone": "America/Edmonton",
+          "offset_minutes": 6
+        }
+      ],
+      "verified": true,
+      "personal_journal_quiet_hours": "00:30–06:30; starts 00:00 and 07:00–23:00"
+    },
+    {
+      "server": "vps1",
+      "agent": "terry",
+      "pairs": [
+        {
+          "health": "15 6 * * 0-5",
+          "journal": "21 6 * * 0-5",
+          "journal_id": "f8ae0b32-c219-4175-9c47-38c713500bdb",
+          "timezone": "America/Edmonton",
+          "offset_minutes": 6
+        },
+        {
+          "health": "0 3 * * 6",
+          "journal": "6 3 * * 6",
+          "journal_id": "237aeaf2-8cee-40c9-b9a3-0a354e0d212d",
+          "timezone": "America/Edmonton",
+          "offset_minutes": 6
+        }
+      ],
+      "verified": true
+    },
+    {
+      "server": "vps1",
+      "agent": "victor",
+      "pairs": [
+        {
+          "health": "45 6 * * 0-5",
+          "journal": "51 6 * * 0-5",
+          "journal_id": "73fbf8e3-19fe-4b2e-a0b0-283b5966d5ee",
+          "timezone": "America/Edmonton",
+          "offset_minutes": 6
+        },
+        {
+          "health": "45 3 * * 6",
+          "journal": "51 3 * * 6",
+          "journal_id": "74913051-4352-43c5-b99c-56adbd5d6c8e",
+          "timezone": "America/Edmonton",
+          "offset_minutes": 6
+        }
+      ],
+      "verified": true
+    },
+    {
+      "server": "vps1",
+      "agent": "vivian",
+      "pairs": [
+        {
+          "health": "15 6 * * 0-5",
+          "journal": "21 6 * * 0-5",
+          "journal_id": "bb1a7d44-5dea-45fc-9cdb-3a64948df818",
+          "timezone": "America/Edmonton",
+          "offset_minutes": 6
+        },
+        {
+          "health": "15 3 * * 6",
+          "journal": "21 3 * * 6",
+          "journal_id": "6e875f06-fe05-4d13-b5bf-11ca85d99f2d",
+          "timezone": "America/Edmonton",
+          "offset_minutes": 6
+        }
+      ],
+      "verified": true
+    },
+    {
+      "server": "vps1",
+      "agent": "wilma",
+      "pairs": [
+        {
+          "health": "30 6 * * 0-5",
+          "journal": "36 6 * * 0-5",
+          "journal_id": "fb6a33fd-4337-40ef-a8a0-e31ccea75450",
+          "timezone": "America/Edmonton",
+          "offset_minutes": 6
+        },
+        {
+          "health": "30 3 * * 6",
+          "journal": "36 3 * * 6",
+          "journal_id": "a9826709-0e16-4b87-837b-e9e966f58f04",
+          "timezone": "America/Edmonton",
+          "offset_minutes": 6
+        }
+      ],
+      "verified": true
+    },
+    {
+      "server": "vps2",
+      "agent": "frank",
+      "pairs": [
+        {
+          "health": "30 3 * * 0-5",
+          "journal": "36 3 * * 0-5",
+          "journal_id": "607ea7a7-6ce1-452a-be0a-96a41ac61880",
+          "timezone": "America/Edmonton",
+          "offset_minutes": 6
+        },
+        {
+          "health": "30 0 * * 6",
+          "journal": "36 0 * * 6",
+          "journal_id": "7dd317a1-a403-4850-97e8-6056ed153f7c",
+          "timezone": "America/Edmonton",
+          "offset_minutes": 6
+        }
+      ],
+      "verified": true
+    },
+    {
+      "server": "vps2",
+      "agent": "harry",
+      "pairs": [
+        {
+          "health": "15 4 * * 0-5",
+          "journal": "21 4 * * 0-5",
+          "journal_id": "6882ef23-c5e2-417f-ac80-ec48a58c5f87",
+          "timezone": "America/Edmonton",
+          "offset_minutes": 6
+        },
+        {
+          "health": "15 1 * * 6",
+          "journal": "21 1 * * 6",
+          "journal_id": "8ec9a098-fa64-42f6-b4b4-c6d260d6774f",
+          "timezone": "America/Edmonton",
+          "offset_minutes": 6
+        }
+      ],
+      "verified": true
+    },
+    {
+      "server": "vps2",
+      "agent": "suzy",
+      "pairs": [
+        {
+          "health": "45 5 * * 0-5",
+          "journal": "51 5 * * 0-5",
+          "journal_id": "eeb83883-1b6c-4806-8f73-e0e89e101f1a",
+          "timezone": "America/Edmonton",
+          "offset_minutes": 6
+        },
+        {
+          "health": "45 2 * * 6",
+          "journal": "51 2 * * 6",
+          "journal_id": "984ff773-b072-4443-b717-be75bbfda04a",
+          "timezone": "America/Edmonton",
+          "offset_minutes": 6
+        }
+      ],
+      "verified": true
+    },
+    {
+      "server": "vps3",
+      "agent": "ruby",
+      "pairs": [
+        {
+          "health": "30 5 * * 0-5",
+          "journal": "36 5 * * 0-5",
+          "journal_id": "1a35169941d5",
+          "timezone": "America/Edmonton",
+          "offset_minutes": 6
+        },
+        {
+          "health": "30 2 * * 6",
+          "journal": "36 2 * * 6",
+          "journal_id": "07ed743c768d",
+          "timezone": "America/Edmonton",
+          "offset_minutes": 6
+        }
+      ],
+      "verified": true
+    },
+    {
+      "server": "vps3",
+      "agent": "roy",
+      "pairs": [
+        {
+          "health": "0 6 * * 0-5",
+          "journal": "6 6 * * 0-5",
+          "journal_id": "f44070eebc56",
+          "timezone": "America/Edmonton",
+          "offset_minutes": 6
+        },
+        {
+          "health": "0 4 * * 6",
+          "journal": "6 4 * * 6",
+          "journal_id": "9c4e8324c933",
+          "timezone": "America/Edmonton",
+          "offset_minutes": 6
+        }
+      ],
+      "verified": true
+    },
+    {
+      "server": "vps4",
+      "agent": "rocky",
+      "pairs": [
+        {
+          "health": "15 5 * * 0-5",
+          "journal": "21 5 * * 0-5",
+          "journal_id": "679c1722-c8bf-4ef3-a5d6-2bf87012115d",
+          "timezone": "America/Edmonton",
+          "offset_minutes": 6
+        },
+        {
+          "health": "15 2 * * 6",
+          "journal": "21 2 * * 6",
+          "journal_id": "1d88cfbe-c492-45f3-bf9b-4fce35bea035",
+          "timezone": "America/Edmonton",
+          "offset_minutes": 6
+        }
+      ],
+      "verified": true
+    }
+  ],
+  "marsha_personal_journal": {
+    "schedule": "0 0,7-23 * * *",
+    "quiet_hours": "00:30–06:30",
+    "first_normal_hourly_start_after_quiet_hours": "07:00",
+    "payload_and_scheduled_authority_preserved": true
+  },
+  "roy_health": {
+    "daily": "0 6 * * 0-5",
+    "weekly": "0 4 * * 6",
+    "journal_home": "https://app.notion.com/p/412a3e33d5818117b486fb01fde2b6fe",
+    "data_source": "collection://9e1ac4ad-e8da-4a9e-b017-6180cc946c8d"
+  },
+  "rollback": "Use each agent's private daily-journal-before.json and supported cron.update to restore only original schedule; remove only Saturday jobs listed here through cron.remove. Restore Marsha personal schedule from personal-journal-before.json. For Hermes use created-job-ids.json with supported remove_job; prior jobs preserved in jobs-before.json. Do not restore whole databases or prompts over later changes.",
+  "private_backups": {
+    "openclaw": "<active-state>/workspace/artifacts/journal-schedule-20261108-cody/",
+    "hermes": "/opt/data/journal-schedule-20261108-cody/"
+  },
+  "commands": [
+    "OpenClaw owning callGatewayFromCli: cron.get, cron.add (disabled clone), cron.update with expectedConfigRevision, cron.get readback.",
+    "Hermes owning cron.jobs API: create_job(paused=True), get_job, resume_job, list_jobs; executed as UID 10000 with HERMES_HOME=/opt/data.",
+    "Final read-only SQLite / Hermes job-store schedule comparison on all four hosts."
+  ],
+  "source_status": "Runtime schedule changes stored in active scheduler databases/JSON through supported APIs. No image/code deployment or PR needed. This technical schedule record is maintained in GitHub; prompts and journal instructions remain in Notion/runtime.",
+  "issue": "https://github.com/ZedBiz44/z-agent-health-report-Skill/issues/6"
+}
