@@ -6,7 +6,9 @@ import json
 import os
 from pathlib import Path
 import re
-import subprocess
+import urllib.error
+import urllib.request
+from types import SimpleNamespace
 from zoneinfo import ZoneInfo
 
 AGENTS = 'Amanda Edith Frank Gohzed Grogar Harry Inga Maggie Marsha Rocky Ruby Suzy Terry Victor Vivian Wilma'.split()
@@ -51,7 +53,43 @@ def assemble(messages, mode):
             pending.pop(key, None)
     return [reports.get(a, {'agent': a, 'collection': 'missing', 'status': 'Unknown', 'text': '', 'messageIds': []}) for a in AGENTS]
 
-def collect(mode, call=subprocess.run, now=None):
+def read_through_gateway(argv, **_kwargs):
+    """Read using the resident gateway; never spawn a second OpenClaw runtime."""
+    root = Path(__file__).resolve().parents[4]
+    config_path = Path(os.environ.get('OPENCLAW_CONFIG_PATH', root / 'openclaw.json')).expanduser().resolve()
+    if config_path.parent != root.resolve():
+        raise ValueError('Collector configuration is outside its own state directory')
+    config = json.loads(config_path.read_text())
+    gateway = config.get('gateway', {})
+    token = os.environ.get('OPENCLAW_GATEWAY_TOKEN') or gateway.get('auth', {}).get('token')
+    if not isinstance(token, str) or not token:
+        raise ValueError('Resident gateway token is not available to the collector')
+    args = {'action': 'read', 'channel': 'discord', 'target': CHANNEL, 'limit': 100}
+    if '--before' in argv:
+        args['before'] = argv[argv.index('--before') + 1]
+    port = int(gateway.get('port', 18789))
+    request = urllib.request.Request(
+        'http://127.0.0.1:' + str(port) + '/tools/invoke',
+        data=json.dumps({'tool': 'message', 'args': args}).encode(),
+        headers={'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json'})
+    try:
+        # Wait for this read; no work deadline, and no CLI fallback under pressure.
+        with urllib.request.urlopen(request) as response:
+            reply = json.load(response)
+    except urllib.error.HTTPError as error:
+        raise ValueError('Resident gateway Discord read returned HTTP ' + str(error.code)) from None
+    except urllib.error.URLError:
+        raise ValueError('Resident gateway Discord read connection failed') from None
+    if reply.get('ok') is not True:
+        raise ValueError('Resident gateway rejected Discord read')
+    payload = reply.get('result', {}).get('details')
+    if not isinstance(payload, dict):
+        raise ValueError('Resident gateway returned no structured Discord result')
+    return SimpleNamespace(returncode=0, stdout=json.dumps({'payload': payload}))
+
+
+def collect(mode, call=None, now=None):
+    call = call or read_through_gateway
     now = now or dt.datetime.now(ZoneInfo('America/Edmonton'))
     start = now.replace(hour=0, minute=0, second=0, microsecond=0).timestamp()*1000
     messages, seen, before, errors = [], set(), None, []
